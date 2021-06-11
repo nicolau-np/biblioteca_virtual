@@ -17,4 +17,8 @@ class Leitor extends Model
     public function pessoa(){
         return $this->belongsTo(Pessoa::class, 'id_pessoa', 'id');
     }
+
+    public function pedido(){
+        return $this->hasMany(Pedido::class, 'id_leitor', 'id');
+    }
 }
