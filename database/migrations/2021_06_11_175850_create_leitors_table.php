@@ -14,8 +14,13 @@ class CreateLeitorsTable extends Migration
     public function up()
     {
         Schema::create('leitors', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->bigInteger('id_pessoa')->unsigned()->index();
             $table->timestamps();
+        });
+
+        Schema::table('leitors', function (Blueprint $table) {
+            $table->foreign('id_pessoa')->references('id')->on('pessoas')->onUpdate('cascade');
         });
     }
 
