@@ -14,8 +14,17 @@ class CreateUsuariosTable extends Migration
     public function up()
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->bigInteger('id_pessoa')->unsigned()->index();
+            $table->string('email')->unique();
+            $table->text('password');
+            $table->string('acesso');
+            $table->string('estado');
             $table->timestamps();
+        });
+
+        Schema::table('usuarios', function(Blueprint $table){
+            $table->foreign('id_pessoa')->references('id')->on('pessoas')->onUpdate('cascade');
         });
     }
 
