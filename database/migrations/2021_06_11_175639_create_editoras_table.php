@@ -14,7 +14,9 @@ class CreateEditorasTable extends Migration
     public function up()
     {
         Schema::create('editoras', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('editora')->unique();
+            $table->string('estado');
             $table->timestamps();
         });
     }
