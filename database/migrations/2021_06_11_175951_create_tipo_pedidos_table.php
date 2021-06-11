@@ -15,7 +15,7 @@ class CreateTipoPedidosTable extends Migration
     {
         Schema::create('tipo_pedidos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('tipo');
+            $table->string('tipo')->unique();
             $table->string('estado');
             $table->timestamps();
         });
