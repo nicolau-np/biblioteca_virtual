@@ -140,7 +140,7 @@ class LeitorController extends Controller
 
             if(Pessoa::find($id)->update($data['pessoa'])){
                 if(Leitor::find($id)->update($data['leitor'])){
-                    return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+                    return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
                 }
             }
         } catch (\Exception $erro) {
