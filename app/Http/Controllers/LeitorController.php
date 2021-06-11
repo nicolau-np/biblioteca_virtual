@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Leitor;
+use App\Pessoa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LeitorController extends Controller
 {
@@ -13,7 +16,12 @@ class LeitorController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $leitors = Leitor::all();
+            return response()->json(['status' => "ok", 'data' => $leitors], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
 
@@ -25,7 +33,45 @@ class LeitorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $rules = [
+                'nome' => ['required', 'string', 'min:10', 'max:255'],
+                'genero' => ['required', 'string', 'min:1'],
+                'estado' => ['required', 'string', 'min:2'],
+
+                'telefone' => ['required', 'Integer',],
+                'bairro' => ['required', 'string', 'min:5', 'max:255']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+            }
+
+            $data['pessoa'] = [
+                'nome'=>$request->nome,
+                'genero'=>$request->genero,
+                'bi'=>$request->bilhete,
+                'foto'=>null,
+                'estado'=>$request->estado,
+            ];
+
+            $data['leitor'] = [
+                'id_pessoa'=>null,
+                'telefone'=>$request->telefone,
+                'bairro'=>$request->bairro,
+            ];
+
+            $pessoa = Pessoa::create($data['pessoa']);
+            if($pessoa){
+                $data['leitor']['id_pessoa'] = $pessoa->id;
+                if(Leitor::create($data['leitor'])){
+                    return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+                }
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
