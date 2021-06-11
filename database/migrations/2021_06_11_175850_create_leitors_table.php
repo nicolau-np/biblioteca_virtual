@@ -16,7 +16,7 @@ class CreateLeitorsTable extends Migration
         Schema::create('leitors', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('id_pessoa')->unsigned()->index();
-            $table->biInteger('telefone');
+            $table->bigInteger('telefone');
             $table->string('bairro');
             $table->timestamps();
         });
