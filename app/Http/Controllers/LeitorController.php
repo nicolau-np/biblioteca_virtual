@@ -156,6 +156,18 @@ class LeitorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $leitor = Leitor::find($id);
+            if (!$leitor) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+            }
+
+
+            if (Leitor::find($id)->delete()) {
+                return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 }
