@@ -82,7 +82,15 @@ class LeitorController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $leitor = Leitor::find($id);
+            if (!$leitor) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+            }
+            return response(['status' => "ok", 'data' => $leitor], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
 
