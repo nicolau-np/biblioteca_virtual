@@ -57,7 +57,15 @@ class EditoraController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $editora = Editora::find($id);
+            if (!$editora) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Editora"], 404);
+            }
+            return response(['status' => "ok", 'data' => $editora], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
