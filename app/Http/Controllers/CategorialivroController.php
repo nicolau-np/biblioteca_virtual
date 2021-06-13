@@ -113,6 +113,18 @@ class CategorialivroController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $categoria_livro = CategoriaLivro::find($id);
+            if (!$categoria_livro) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Categoria"], 404);
+            }
+
+
+            if (CategoriaLivro::find($id)->delete()) {
+                return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 }
