@@ -15,7 +15,7 @@ class AutorController extends Controller
      */
     public function index()
     {
-        try{
+        try {
             $autors = Autor::all();
             return response()->json(['status' => "ok", 'data' => $autors], 200);
         } catch (\Exception $erro) {
@@ -33,7 +33,7 @@ class AutorController extends Controller
     {
         $rules = [
             'nome' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
-            'estado' =>['required','string', 'min:2'],
+            'estado' => ['required', 'string', 'min:2'],
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -41,10 +41,10 @@ class AutorController extends Controller
             return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
         }
         $data = [
-            'nome'=>$request->nome,
-            'estado'=>$request->estado,
+            'nome' => $request->nome,
+            'estado' => $request->estado,
         ];
-        if(Autor::create($data)){
+        if (Autor::create($data)) {
             return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
         }
     }
@@ -85,8 +85,8 @@ class AutorController extends Controller
 
 
             $rules = [
-                'nome' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
-                'estado' =>['required','string', 'min:2'],
+                'nome' => ['required', 'string', 'min:10', 'max:255',],
+                'estado' => ['required', 'string', 'min:2'],
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -94,10 +94,10 @@ class AutorController extends Controller
                 return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
             }
             $data = [
-                'nome'=>$request->nome,
-                'estado'=>$request->estado,
+                'nome' => $request->nome,
+                'estado' => $request->estado,
             ];
-            if(Autor::find($id)->update($data)){
+            if (Autor::find($id)->update($data)) {
                 return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
             }
         } catch (\Exception $erro) {
