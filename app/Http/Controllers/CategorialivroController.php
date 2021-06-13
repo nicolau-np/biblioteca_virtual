@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CategoriaLivro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategorialivroController extends Controller
 {
@@ -30,7 +31,22 @@ class CategorialivroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'categoria' => ['required', 'string', 'min:10', 'max:255', 'unique:categoria_livros,categoria'],
+            'estado' => ['required', 'string', 'min:2'],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+        }
+        $data = [
+            'autor' => $request->autor,
+            'estado' => $request->estado,
+        ];
+        if (Autor::create($data)) {
+            return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+        }
     }
 
     /**
