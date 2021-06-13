@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Autor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AutorController extends Controller
 {
@@ -13,7 +15,12 @@ class AutorController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $autors = Autor::all();
+            return response()->json(['status' => "ok", 'data' => $autors], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
