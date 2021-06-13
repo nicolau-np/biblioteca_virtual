@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TipoPedido;
 use Illuminate\Http\Request;
 
 class TipopedidoController extends Controller
@@ -13,7 +14,12 @@ class TipopedidoController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $tipo_pedidos = TipoPedido::all();
+            return response()->json(['status' => "ok", 'data' => $tipo_pedidos], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
