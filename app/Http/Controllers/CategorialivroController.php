@@ -32,7 +32,7 @@ class CategorialivroController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'categoria' => ['required', 'string', 'min:10', 'max:255', 'unique:categoria_livros,categoria'],
+            'categoria' => ['required', 'string', 'min:4', 'max:255', 'unique:categoria_livros,categoria'],
             'estado' => ['required', 'string', 'min:2'],
         ];
 
@@ -85,7 +85,7 @@ class CategorialivroController extends Controller
 
 
             $rules = [
-                'categoria' => ['required', 'string', 'min:10', 'max:255',],
+                'categoria' => ['required', 'string', 'min:4', 'max:255',],
                 'estado' => ['required', 'string', 'min:2'],
             ];
 
