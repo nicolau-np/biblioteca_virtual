@@ -113,6 +113,18 @@ class TipopedidoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $tipo_pedido = TipoPedido::find($id);
+            if (!$tipo_pedido) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Tipo de Pedido"], 404);
+            }
+
+
+            if (TipoPedido::find($id)->delete()) {
+                return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 }
