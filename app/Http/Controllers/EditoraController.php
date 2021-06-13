@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Editora;
 use Illuminate\Http\Request;
 
 class EditoraController extends Controller
@@ -13,7 +14,12 @@ class EditoraController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $editoras = Editora::all();
+            return response()->json(['status' => "ok", 'data' => $editoras], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
