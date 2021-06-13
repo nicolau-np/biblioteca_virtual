@@ -77,7 +77,32 @@ class EditoraController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $editora = Editora::find($id);
+            if (!$editora) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Editora"], 404);
+            }
+
+
+            $rules = [
+                'editora' => ['required', 'string', 'min:10', 'max:255',],
+                'estado' => ['required', 'string', 'min:2'],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+            }
+            $data = [
+                'editora' => $request->editora,
+                'estado' => $request->estado,
+            ];
+            if (Editora::find($id)->update($data)) {
+                return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
