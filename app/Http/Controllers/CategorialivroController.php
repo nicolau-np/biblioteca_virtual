@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoriaLivro;
 use Illuminate\Http\Request;
 
 class CategorialivroController extends Controller
@@ -13,7 +14,12 @@ class CategorialivroController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $categoria_livros = CategoriaLivro::all();
+            return response()->json(['status' => "ok", 'data' => $categoria_livros], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
