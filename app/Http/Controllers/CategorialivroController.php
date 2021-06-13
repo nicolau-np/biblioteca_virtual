@@ -57,7 +57,15 @@ class CategorialivroController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $categoria_livro = CategoriaLivro::find($id);
+            if (!$categoria_livro) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Categoria"], 404);
+            }
+            return response(['status' => "ok", 'data' => $categoria_livro], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
@@ -69,7 +77,32 @@ class CategorialivroController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $categoria_livros = CategoriaLivro::find($id);
+            if (!$categoria_livros) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Categoria"], 404);
+            }
+
+
+            $rules = [
+                'categoria' => ['required', 'string', 'min:10', 'max:255',],
+                'estado' => ['required', 'string', 'min:2'],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+            }
+            $data = [
+                'categoria' => $request->categoria,
+                'estado' => $request->estado,
+            ];
+            if (CategoriaLivro::find($id)->update($data)) {
+                return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
