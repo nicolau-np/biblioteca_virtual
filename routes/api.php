@@ -26,3 +26,11 @@ Route::group(['prefix'=>"editoras", ], function(){
     Route::put('/update/{id}', "EditoraController@update");
     Route::delete('/destroy/{id}', "EditoraController@destroy");
 });
+
+Route::group(['prefix'=>"categoria_livros", ], function(){
+    Route::get('/', "CategorialivroController@index");
+    Route::get('/show/{id}', "CategorialivroController@show");
+    Route::post('/store', "CategorialivroController@store");
+    Route::put('/update/{id}', "CategorialivroController@update");
+    Route::delete('/destroy/{id}', "CategorialivroController@destroy");
+});
