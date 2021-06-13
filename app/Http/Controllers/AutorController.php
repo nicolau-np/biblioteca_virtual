@@ -60,7 +60,7 @@ class AutorController extends Controller
         try {
             $autor = Autor::find($id);
             if (!$autor) {
-                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Autor"], 404);
             }
             return response(['status' => "ok", 'data' => $autor], 200);
         } catch (\Exception $erro) {
@@ -80,7 +80,7 @@ class AutorController extends Controller
         try {
             $autor = Autor::find($id);
             if (!$autor) {
-                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Autor"], 404);
             }
 
 
@@ -113,6 +113,18 @@ class AutorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $autor = Autor::find($id);
+            if (!$autor) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Autor"], 404);
+            }
+
+
+            if (Autor::find($id)->delete()) {
+                return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 }
