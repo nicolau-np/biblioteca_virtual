@@ -113,6 +113,18 @@ class EditoraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $editora = Editora::find($id);
+            if (!$editora) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Editora"], 404);
+            }
+
+
+            if (Editora::find($id)->delete()) {
+                return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 }
