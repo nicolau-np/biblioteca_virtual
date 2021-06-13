@@ -40,8 +40,13 @@ class AutorController extends Controller
         if ($validator->fails()) {
             return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
         }
-
-        
+        $data = [
+            'nome'=>$request->nome,
+            'estado'=>$request->estado,
+        ];
+        if(Autor::create($data)){
+            return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+        }
     }
 
     /**
