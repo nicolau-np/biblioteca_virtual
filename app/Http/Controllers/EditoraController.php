@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Editora;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EditoraController extends Controller
 {
@@ -30,7 +31,22 @@ class EditoraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'editora' => ['required', 'string', 'min:10', 'max:255', 'unique:editoras,editora'],
+            'estado' => ['required', 'string', 'min:2'],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+        }
+        $data = [
+            'editora' => $request->editora,
+            'estado' => $request->estado,
+        ];
+        if (Editora::create($data)) {
+            return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+        }
     }
 
     /**
