@@ -57,7 +57,15 @@ class AutorController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $autor = Autor::find($id);
+            if (!$autor) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+            }
+            return response(['status' => "ok", 'data' => $autor], 200);
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
