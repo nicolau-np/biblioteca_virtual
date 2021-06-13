@@ -18,3 +18,11 @@ Route::group(['prefix'=>"autors", ], function(){
     Route::put('/update/{id}', "AutorController@update");
     Route::delete('/destroy/{id}', "AutorController@destroy");
 });
+
+Route::group(['prefix'=>"editoras", ], function(){
+    Route::get('/', "EditoraController@index");
+    Route::get('/show/{id}', "EditoraController@show");
+    Route::post('/store', "EditoraController@store");
+    Route::put('/update/{id}', "EditoraController@update");
+    Route::delete('/destroy/{id}', "EditoraController@destroy");
+});
