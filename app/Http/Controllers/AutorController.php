@@ -85,7 +85,7 @@ class AutorController extends Controller
 
 
             $rules = [
-                'nome' => ['required', 'string', 'min:10', 'max:255',],
+                'autor' => ['required', 'string', 'min:10', 'max:255',],
                 'estado' => ['required', 'string', 'min:2'],
             ];
 
@@ -94,7 +94,7 @@ class AutorController extends Controller
                 return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
             }
             $data = [
-                'nome' => $request->nome,
+                'autor' => $request->autor,
                 'estado' => $request->estado,
             ];
             if (Autor::find($id)->update($data)) {
