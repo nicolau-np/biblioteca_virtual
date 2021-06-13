@@ -77,7 +77,32 @@ class TipopedidoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $tipo_pedido = TipoPedido::find($id);
+            if (!$tipo_pedido) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Tipo de Pedido"], 404);
+            }
+
+
+            $rules = [
+                'tipo' => ['required', 'string', 'min:4', 'max:255',],
+                'estado' => ['required', 'string', 'min:2'],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+            }
+            $data = [
+                'tipo' => $request->tipo,
+                'estado' => $request->estado,
+            ];
+            if (TipoPedido::find($id)->update($data)) {
+                return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
