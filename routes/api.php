@@ -11,10 +11,10 @@ Route::group(['prefix'=>"leitors", ], function(){
     Route::delete('/destroy/{id}', "LeitorController@destroy");
 });
 
-Route::group(['prefix'=>"leitors", ], function(){
-    Route::get('/', "LeitorController@index");
-    Route::get('/show/{id}', "LeitorController@show");
-    Route::post('/store', "LeitorController@store");
-    Route::put('/update/{id}', "LeitorController@update");
-    Route::delete('/destroy/{id}', "LeitorController@destroy");
+Route::group(['prefix'=>"autors", ], function(){
+    Route::get('/', "AutorController@index");
+    Route::get('/show/{id}', "AutorController@show");
+    Route::post('/store', "AutorController@store");
+    Route::put('/update/{id}', "AutorController@update");
+    Route::delete('/destroy/{id}', "AutorController@destroy");
 });

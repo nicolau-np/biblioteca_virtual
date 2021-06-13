@@ -32,7 +32,7 @@ class AutorController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nome' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
+            'autor' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
             'estado' => ['required', 'string', 'min:2'],
         ];
 
@@ -41,7 +41,7 @@ class AutorController extends Controller
             return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
         }
         $data = [
-            'nome' => $request->nome,
+            'autor' => $request->nome,
             'estado' => $request->estado,
         ];
         if (Autor::create($data)) {
