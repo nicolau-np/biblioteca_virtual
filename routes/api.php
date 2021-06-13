@@ -34,3 +34,11 @@ Route::group(['prefix'=>"categoria_livros", ], function(){
     Route::put('/update/{id}', "CategorialivroController@update");
     Route::delete('/destroy/{id}', "CategorialivroController@destroy");
 });
+
+Route::group(['prefix'=>"tipo_pedidos", ], function(){
+    Route::get('/', "TipopedidoController@index");
+    Route::get('/show/{id}', "TipopedidoController@show");
+    Route::post('/store', "TipopedidoController@store");
+    Route::put('/update/{id}', "TipopedidoController@update");
+    Route::delete('/destroy/{id}', "TipopedidoController@destroy");
+});
