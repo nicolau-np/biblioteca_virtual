@@ -31,7 +31,17 @@ class AutorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'nome' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
+            'estado' =>['required','string', 'min:2'],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+        }
+
+        
     }
 
     /**
