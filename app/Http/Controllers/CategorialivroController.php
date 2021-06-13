@@ -41,10 +41,10 @@ class CategorialivroController extends Controller
             return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
         }
         $data = [
-            'autor' => $request->autor,
+            'categoria' => $request->categoria,
             'estado' => $request->estado,
         ];
-        if (Autor::create($data)) {
+        if (CategoriaLivro::create($data)) {
             return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
         }
     }
