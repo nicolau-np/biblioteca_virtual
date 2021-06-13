@@ -77,7 +77,32 @@ class AutorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $autor = Autor::find($id);
+            if (!$autor) {
+                return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
+            }
+
+
+            $rules = [
+                'nome' => ['required', 'string', 'min:10', 'max:255', 'unique:autors,autor'],
+                'estado' =>['required','string', 'min:2'],
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+            if ($validator->fails()) {
+                return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+            }
+            $data = [
+                'nome'=>$request->nome,
+                'estado'=>$request->estado,
+            ];
+            if(Autor::find($id)->update($data)){
+                return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
+            }
+        } catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
     }
 
     /**
