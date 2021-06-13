@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TipoPedido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TipopedidoController extends Controller
 {
@@ -30,7 +31,22 @@ class TipopedidoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'tipo' => ['required', 'string', 'min:4', 'max:255', 'unique:tipo_pedidos,tipo'],
+            'estado' => ['required', 'string', 'min:2'],
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+        }
+        $data = [
+            'tipo' => $request->tipo,
+            'estado' => $request->estado,
+        ];
+        if (TipoPedido::create($data)) {
+            return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+        }
     }
 
     /**
