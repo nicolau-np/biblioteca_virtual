@@ -41,7 +41,7 @@ class AutorController extends Controller
             return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
         }
         $data = [
-            'autor' => $request->nome,
+            'autor' => $request->autor,
             'estado' => $request->estado,
         ];
         if (Autor::create($data)) {
