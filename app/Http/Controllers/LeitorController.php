@@ -52,7 +52,7 @@ class LeitorController extends Controller
                 'nome'=>$request->nome,
                 'genero'=>$request->genero,
                 'bi'=>$request->bilhete,
-                'foto'=>null,
+                'foto'=>$request->foto,
                 'estado'=>$request->estado,
             ];
 
