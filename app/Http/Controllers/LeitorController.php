@@ -49,23 +49,37 @@ class LeitorController extends Controller
             }
 
             $data['pessoa'] = [
-                'nome'=>$request->nome,
-                'genero'=>$request->genero,
-                'bi'=>$request->bi,
-                'foto'=>$request->foto,
-                'estado'=>$request->estado,
+                'nome' => $request->nome,
+                'genero' => $request->genero,
+                'bi' => $request->bi,
+                'foto' => null,
+                'estado' => $request->estado,
             ];
 
+            if ($request->hasFile('foto') && $request->foto->isValid()) {
+
+                $rules = [
+                    'foto'=>['required', 'mimes:jpg,jpeg,png,JPG,JPEG,PNG', 'max:10000']
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+                }
+                
+                $path = $request->file('foto')->store('img_leitores');
+                $data['pessoa']['foto'] = $path;
+            }
+
             $data['leitor'] = [
-                'id_pessoa'=>null,
-                'telefone'=>$request->telefone,
-                'bairro'=>$request->bairro,
+                'id_pessoa' => null,
+                'telefone' => $request->telefone,
+                'bairro' => $request->bairro,
             ];
 
             $pessoa = Pessoa::create($data['pessoa']);
-            if($pessoa){
+            if ($pessoa) {
                 $data['leitor']['id_pessoa'] = $pessoa->id;
-                if(Leitor::create($data['leitor'])){
+                if (Leitor::create($data['leitor'])) {
                     return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
                 }
             }
@@ -125,21 +139,21 @@ class LeitorController extends Controller
             }
 
             $data['pessoa'] = [
-                'nome'=>$request->nome,
-                'genero'=>$request->genero,
-                'bi'=>$request->bi,
-                'foto'=>$leitor->foto,
-                'estado'=>$request->estado,
+                'nome' => $request->nome,
+                'genero' => $request->genero,
+                'bi' => $request->bi,
+                'foto' => $leitor->foto,
+                'estado' => $request->estado,
             ];
 
             $data['leitor'] = [
-                'id_pessoa'=>$leitor->id_pessoa,
-                'telefone'=>$request->telefone,
-                'bairro'=>$request->bairro,
+                'id_pessoa' => $leitor->id_pessoa,
+                'telefone' => $request->telefone,
+                'bairro' => $request->bairro,
             ];
 
-            if(Pessoa::find($id)->update($data['pessoa'])){
-                if(Leitor::find($id)->update($data['leitor'])){
+            if (Pessoa::find($id)->update($data['pessoa'])) {
+                if (Leitor::find($id)->update($data['leitor'])) {
                     return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
                 }
             }
