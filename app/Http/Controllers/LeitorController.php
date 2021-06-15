@@ -51,7 +51,7 @@ class LeitorController extends Controller
             $data['pessoa'] = [
                 'nome'=>$request->nome,
                 'genero'=>$request->genero,
-                'bi'=>$request->bilhete,
+                'bi'=>$request->bi,
                 'foto'=>$request->foto,
                 'estado'=>$request->estado,
             ];
@@ -127,8 +127,8 @@ class LeitorController extends Controller
             $data['pessoa'] = [
                 'nome'=>$request->nome,
                 'genero'=>$request->genero,
-                'bi'=>$request->bilhete,
-                'foto'=>null,
+                'bi'=>$request->bi,
+                'foto'=>$leitor->foto,
                 'estado'=>$request->estado,
             ];
 
