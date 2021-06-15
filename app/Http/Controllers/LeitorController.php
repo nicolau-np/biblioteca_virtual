@@ -152,6 +152,22 @@ class LeitorController extends Controller
                 'bairro' => $request->bairro,
             ];
 
+            if ($request->hasFile('foto') && $request->foto->isValid()) {
+
+                $rules = [
+                    'foto'=>['required', 'mimes:jpg,jpeg,png,JPG,JPEG,PNG', 'max:10000']
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+                }
+                if ($leitor->foto != "" && file_exists($leitor->foto)) {
+                    unlink($leitor->foto);
+                }
+                $path = $request->file('foto')->store('img_leitores');
+                $data['pessoa']['foto'] = $path;
+            }
+
             if (Pessoa::find($id)->update($data['pessoa'])) {
                 if (Leitor::find($id)->update($data['leitor'])) {
                     return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
