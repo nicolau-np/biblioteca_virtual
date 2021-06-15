@@ -56,6 +56,12 @@ class LeitorController extends Controller
                 'estado' => $request->estado,
             ];
 
+            $data['leitor'] = [
+                'id_pessoa' => null,
+                'telefone' => $request->telefone,
+                'bairro' => $request->bairro,
+            ];
+
             if ($request->hasFile('foto') && $request->foto->isValid()) {
 
                 $rules = [
@@ -65,16 +71,10 @@ class LeitorController extends Controller
                 if ($validator->fails()) {
                     return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
                 }
-                
+
                 $path = $request->file('foto')->store('img_leitores');
                 $data['pessoa']['foto'] = $path;
             }
-
-            $data['leitor'] = [
-                'id_pessoa' => null,
-                'telefone' => $request->telefone,
-                'bairro' => $request->bairro,
-            ];
 
             $pessoa = Pessoa::create($data['pessoa']);
             if ($pessoa) {
