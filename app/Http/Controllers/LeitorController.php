@@ -76,6 +76,16 @@ class LeitorController extends Controller
                 $data['pessoa']['foto'] = $path;
             }
 
+            if($request->bi!=""){
+                $rules = [
+                    'bi'=>['required', 'string', 'unique:leitors,bi']
+                ];
+                $validator = Validator::make($request->all(), $rules);
+                if ($validator->fails()) {
+                    return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
+                }
+            }
+
             $pessoa = Pessoa::create($data['pessoa']);
             if ($pessoa) {
                 $data['leitor']['id_pessoa'] = $pessoa->id;
