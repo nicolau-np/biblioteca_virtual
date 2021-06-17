@@ -20,6 +20,14 @@ class User extends Authenticatable
         'estado',
     ];
 
+    protected $hidden = [
+        'password'
+    ];
+
+    protected $casts=[
+        'email_verified_at'=>'datetime'
+    ];
+
     public function pessoa()
     {
         return $this->belongsTo(Pessoa::class, 'id_pessoa', 'id');

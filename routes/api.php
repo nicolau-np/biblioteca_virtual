@@ -42,3 +42,6 @@ Route::group(['prefix'=>"tipo_pedidos", ], function(){
     Route::put('/update/{id}', "TipopedidoController@update");
     Route::delete('/destroy/{id}', "TipopedidoController@destroy");
 });
+
+
+Route::get('user', "AuthController@user");
