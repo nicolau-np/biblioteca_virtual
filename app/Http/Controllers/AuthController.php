@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Pessoa;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -15,30 +16,31 @@ class AuthController extends Controller
                 'email' => ['required', 'email', 'unique:usuarios,email'],
                 'password'=>['required', 'string','min:6', 'max:100'],
                 'acesso' =>['required', 'string', 'min:3', 'max:255'],
-                'estado1' => ['required', 'string', 'min:2'],
+                'estadoU' => ['required', 'string', 'min:2'],
 
                 'nome'=> ['required', 'string', 'min:10', 'max:255',],
                 'genero' =>['required', 'string', 'min:1', 'max:255'],
-                'estado2'=> ['required', 'string', 'min:2']
+                'estadoP'=> ['required', 'string', 'min:2']
             ];
 
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
             }
+            $password = Hash::make($request->password);
             $data['user'] = [
                 'id_pessoa'=>null,
                 'email'=>$request->email,
-                'password'=> $request->password,
+                'password'=> $password,
                 'acesso'=> $request->acesso,
-                'estado'=> $request->estado1,
+                'estado'=> $request->estadoU,
             ];
             $data['pessoa'] = [
                 'nome'=>$request->nome,
                 'genero'=>$request->genero,
                 'bi'=> $request->bi,
                 'foto'=>null,
-                'estado'=> $request->estado2,
+                'estado'=> $request->estadoP,
             ];
 
             if ($request->hasFile('foto') && $request->foto->isValid()) {
@@ -51,7 +53,7 @@ class AuthController extends Controller
                     return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
                 }
 
-                $path = $request->file('foto')->store('img_leitores');
+                $path = $request->file('foto')->store('img_users');
                 $data['pessoa']['foto'] = $path;
             }
 
