@@ -127,12 +127,20 @@ class AuthController extends Controller
         }
     }
 
-    public function user()
+   /* public function user()
     {
         try {
             return response()->json(JWTAuth::user());
         } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
+    }*/
+
+    public function admin(){
+        return response()->json(['status'=>'admin']);
+    }
+
+    public function user(){
+        return response()->json(['status'=>'user']);
     }
 }
