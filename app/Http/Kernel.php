@@ -55,6 +55,10 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'apiJWT' => \App\Http\Middleware\apiProtectedRoute::class,
+
+        'adminJWT' => \App\Http\Middleware\adminJWT::class,
+        'userJWT' => \App\Http\Middleware\userJWT::class,
+
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
