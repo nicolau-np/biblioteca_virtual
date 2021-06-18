@@ -46,4 +46,17 @@ Route::group(['prefix'=>"tipo_pedidos", ], function(){
 Route::group(['prefix'=>"users"], function(){
     Route::get('/', "AuthController@index");
     Route::post('/register', "AuthController@register");
+    Route::post('/login', 'AuthController@login');
 });
+
+
+/*Route::namespace('api')->group(function(){
+    Route::prefix('auth')->group(function () {
+      Route::post('login', 'AuthController@login');
+      Route::middleware('auth.jwt')->group(function () {
+          Route::post('logout', 'AuthController@logout');
+          Route::post('refresh', 'AuthController@refresh');
+
+      });
+    });
+  });*/
