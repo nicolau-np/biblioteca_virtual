@@ -47,17 +47,5 @@ Route::group(['prefix'=>"users",], function(){
     Route::get('/', "AuthController@index")->middleware('auth.jwt');
     Route::post('/register', "AuthController@register");
     Route::post('/login', 'AuthController@login');
-    Route::get('/logout', 'AuthController@logout');
+    Route::post('/logout', 'AuthController@logout')->middleware('auth.jwt');
 });
-
-
-/*Route::namespace('api')->group(function(){
-    Route::prefix('auth')->group(function () {
-      Route::post('login', 'AuthController@login');
-      Route::middleware('auth.jwt')->group(function () {
-          Route::post('logout', 'AuthController@logout');
-          Route::post('refresh', 'AuthController@refresh');
-
-      });
-    });
-  });*/
