@@ -84,7 +84,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        try{
+        try {
             $rules = [
                 'email' => ['required', 'string', 'email', 'max:255'],
                 'password' => ['required', 'string', 'min:6'],
@@ -95,51 +95,44 @@ class AuthController extends Controller
                 return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
             }
 
-            if (!$token = JWTAuth::attempt([
-                'email' => $request->email,
-                'password' => $request->password
-            ])) {
-                return response()->json(['error' => 'Unauthorized', 'data'=>"Usuário não autoriazado"], 401);
+            $credencials = $request->only('email', 'password');
+
+            $token = JWTAuth::attempt($credencials);
+            if ($token) {
+                return response()->json(['status' => "error", 'error' => 'Unauthorized', 'data' => "Usuário não autoriazado"], 401);
+            } else {
+                return response()->json(['status' => "ok", 'access_token' => $token, 'token_type' => "bearer", 'expires_in' => JWTAuth::factory()->getTTL() * 60], 200);
             }
-            return response()->json([
-                'access_token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => JWTAuth::factory()->getTTL() * 60
-            ]);
-        }catch (\Exception $erro) {
+        } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
-
     }
 
     public function logout()
     {
-        try{
+        try {
             JWTAuth::invalidate();
-            return response()->json(['status' => 'success', 'data'=>'Sessão terminada com sucesso']);
-        }catch(\Exception $erro){
+            return response()->json(['status' => 'success', 'data' => 'Sessão terminada com sucesso']);
+        } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
-
     }
 
     public function refresh()
     {
-        try{
-            return response()->json(['status' =>'success','access_token' => JWTAuth::refresh(), 'token_type' => 'bearer', 'expires_in' => JWTAuth::factory()->getTTL() * 60]);
-        }catch(\Exception $erro){
+        try {
+            return response()->json(['status' => 'success', 'access_token' => JWTAuth::refresh(), 'token_type' => 'bearer', 'expires_in' => JWTAuth::factory()->getTTL() * 60]);
+        } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
-
     }
 
     public function user()
     {
-        try{
+        try {
             return response()->json(JWTAuth::user());
-        }catch(\Exception $erro){
+        } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
-
     }
 }
