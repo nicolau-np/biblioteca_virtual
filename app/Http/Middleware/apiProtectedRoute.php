@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class apiProtectedRoute extends BaseMiddleware
 {
@@ -16,6 +17,11 @@ class apiProtectedRoute extends BaseMiddleware
      */
     public function handle($request, Closure $next)
     {
+        try{
+            $user = JWTAuth::parseToken()->authenticate();
+        }catch (\Exception $erro) {
+            return response()->json(['status' => "error", 'data' => $erro], 500);
+        }
         return $next($request);
     }
 }
