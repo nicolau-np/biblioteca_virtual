@@ -98,8 +98,8 @@ class AuthController extends Controller
             $credencials = $request->only('email', 'password');
 
             $token = JWTAuth::attempt($credencials);
-            if ($token) {
-                return response()->json(['status' => "error", 'error' => 'Unauthorized', 'data' => "Usuário não autoriazado"], 401);
+            if (!$token) {
+                return response()->json(['status' => "Unauthorized", 'data' => "Usuário não autoriazado"], 401);
             } else {
                 return response()->json(['status' => "ok", 'access_token' => $token, 'token_type' => "bearer", 'expires_in' => JWTAuth::factory()->getTTL() * 60], 200);
             }
