@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -79,8 +80,55 @@ class AuthController extends Controller
         }
     }
 
-    public function user(){
+    public function login(Request $request)
+    {
+        $credentials = $request->only("username", "password");
+        $validator = Validator::make($credentials, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        if (!$token = JWTAuth::attempt([
+            'username' => $request->username,
+            'password' => $request->password
+        ])
+        ) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => JWTAuth::factory()->getTTL() * 60
+        ]);
+    }
 
+    public function logout()
+    {
+        JWTAuth::invalidate();
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
+    }
+
+    public function refresh()
+    {
+        return response()->json([
+            'access_token' => JWTAuth::refresh(),
+            'token_type' => 'bearer',
+            'expires_in' => JWTAuth::factory()->getTTL() * 60
+        ]);
+    }
+
+    public function user()
+    {
+        return response()->json(
+            JWTAuth::user()
+        );
     }
 
 
