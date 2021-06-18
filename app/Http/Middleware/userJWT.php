@@ -20,6 +20,8 @@ class userJWT
             $user = JWTAuth::parseToken()->authenticate();
             if ($user->acesso == "user") {
                 return $next($request);
+            }else{
+                return response()->json(['status' => "Unauthorized", 'data'=>"Espaço reservado apenas para Usuário Normal" ], 401);
             }
         } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);

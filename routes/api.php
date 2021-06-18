@@ -50,5 +50,5 @@ Route::group(['prefix'=>"users",], function(){
     Route::post('/logout', 'AuthController@logout')->middleware('apiJWT');
 });
 
-Route::post('/admin', "AuthController@admin")->middleware('admin.jwt');
-Route::post('/user', "AuthController@user")->middleware('user.jwt');
+Route::post('/admin', "AuthController@admin")->middleware('adminJWT');
+Route::post('/user', "AuthController@user")->middleware('userJWT');
