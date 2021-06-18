@@ -43,10 +43,11 @@ Route::group(['prefix'=>"tipo_pedidos", ], function(){
     Route::delete('/destroy/{id}', "TipopedidoController@destroy");
 });
 
-Route::group(['prefix'=>"users"], function(){
-    Route::get('/', "AuthController@index");
+Route::group(['prefix'=>"users",], function(){
+    Route::get('/', "AuthController@index")->middleware('auth.jwt');
     Route::post('/register', "AuthController@register");
     Route::post('/login', 'AuthController@login');
+    Route::get('/logout', 'AuthController@logout');
 });
 
 
