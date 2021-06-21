@@ -127,14 +127,18 @@ class AuthController extends Controller
         }
     }
 
-   /* public function user()
+    public function me()
     {
         try {
-            return response()->json(JWTAuth::user());
+            $user = User::with(['pessoa'])->find(JWTAuth::user()->id);
+            if(!$user){
+                return response()->json(['status' =>'not_found', 'data'=>"Não encontrou usuario",], 404);
+            }
+            return response()->json(['status' =>'success', 'data'=>$user,], 200);
         } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }
-    }*/
+    }
 
     public function admin(){
         return response()->json(['status'=>'admin']);

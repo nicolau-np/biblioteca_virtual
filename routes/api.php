@@ -48,7 +48,10 @@ Route::group(['prefix'=>"users",], function(){
     Route::post('/register', "AuthController@register");
     Route::post('/login', 'AuthController@login');
     Route::get('/logout', 'AuthController@logout')->middleware('apiJWT');
+    Route::get('/me', "AuthController@me")->middleware('apiJWT');
 });
+
+
 
 Route::get('/admin', "AuthController@admin")->middleware('adminJWT');
 Route::get('/user', "AuthController@user")->middleware('userJWT');
