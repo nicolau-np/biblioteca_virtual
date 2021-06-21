@@ -101,7 +101,7 @@ class AuthController extends Controller
             if (!$token) {
                 return response()->json(['status' => "Unauthorized", 'data' => "Usuário não autoriazado"], 401);
             } else {
-                return response()->json(['status' => "ok", 'access_token' => $token, 'token_type' => "bearer", 'expires_in' => JWTAuth::factory()->getTTL() * 60], 200);
+                return response()->json(['status' => "ok", 'data'=>"Feito com sucesso", 'access_token' => $token, 'token_type' => "bearer", 'expires_in' => JWTAuth::factory()->getTTL() * 60], 200);
             }
         } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
