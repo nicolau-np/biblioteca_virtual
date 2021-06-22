@@ -44,7 +44,7 @@ Route::group(['prefix'=>"tipo_pedidos", ], function(){
 });
 
 Route::group(['prefix'=>"users",], function(){
-    Route::get('/', "AuthController@index")->middleware('apiJWT');
+    Route::get('/', "AuthController@index");
     Route::post('/register', "AuthController@register");
     Route::post('/login', 'AuthController@login');
     Route::get('/logout', 'AuthController@logout')->middleware('apiJWT');

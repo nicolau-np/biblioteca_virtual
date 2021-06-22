@@ -141,10 +141,19 @@ class AuthController extends Controller
     }
 
     public function admin(){
-        return response()->json(['status'=>'admin']);
+        try{
+            return response()->json(['status'=>'success', 'data'=>"Usuario permitido"], 200);
+        }catch (\Exception $erro) {
+            return response()->json(['status'=>"error", 'data'=>$erro], 500);
+        }
+
     }
 
     public function user(){
-        return response()->json(['status'=>'user']);
+        try{
+            return response()->json(['status'=>'success', 'data'=>"Usuario permitido"], 200);
+        }catch (\Exception $erro) {
+            return response()->json(['status'=>"error", 'data'=>$erro], 500);
+        }
     }
 }
