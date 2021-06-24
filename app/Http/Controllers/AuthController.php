@@ -55,7 +55,9 @@ class AuthController extends Controller
                 'estado' => $request->estadoP,
             ];
 
-            if ($request->hasFile('foto') && $request->foto->isValid()) {
+            return response()->json(['data' =>$request->foto]);
+
+           /* if ($request->hasFile('foto') && $request->foto->isValid()) {
 
                 $rules = [
                     'foto' => ['required', 'mimes:jpg,jpeg,png,JPG,JPEG,PNG', 'max:10000']
@@ -76,7 +78,7 @@ class AuthController extends Controller
                 if (User::create($data['user'])) {
                     return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
                 }
-            }
+            }*/
         } catch (\Exception $erro) {
             return response()->json(['status' => "error", 'data' => $erro], 500);
         }

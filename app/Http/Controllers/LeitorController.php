@@ -80,7 +80,7 @@ class LeitorController extends Controller
             if ($pessoa) {
                 $data['leitor']['id_pessoa'] = $pessoa->id;
                 if (Leitor::create($data['leitor'])) {
-                    return response()->json(['status' => "success", 'data' => "Feito com sucesso"], 200);
+                    return response()->json(['status' => "success", 'data' => "Feito com sucesso", 'foto'=>$request->foto], 200);
                 }
             }
         } catch (\Exception $erro) {
