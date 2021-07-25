@@ -51,7 +51,6 @@ class LeitorController extends Controller
             $data['pessoa'] = [
                 'nome' => $request->nome,
                 'genero' => $request->genero,
-                'bi' => $request->bi,
                 'foto' => null,
                 'estado' => $request->estado,
             ];
@@ -123,8 +122,7 @@ class LeitorController extends Controller
                 return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
             }
 
-
-            $rules = [
+         /*$rules = [
                 'nome' => ['required', 'string', 'min:10', 'max:255'],
                 'genero' => ['required', 'string', 'min:1'],
                 'estado' => ['required', 'string', 'min:2'],
@@ -136,23 +134,21 @@ class LeitorController extends Controller
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json(['status' => 'validation', 'data' => $validator->errors()], 400);
-            }
+            }*/
 
             $data['pessoa'] = [
                 'nome' => $request->nome,
                 'genero' => $request->genero,
-                'bi' => $request->bi,
                 'foto' => $leitor->foto,
                 'estado' => $request->estado,
             ];
 
             $data['leitor'] = [
-                'id_pessoa' => $leitor->id_pessoa,
                 'telefone' => $request->telefone,
                 'bairro' => $request->bairro,
             ];
 
-            if ($request->hasFile('foto') && $request->foto->isValid()) {
+           /*if ($request->hasFile('foto') && $request->foto->isValid()) {
 
                 $rules = [
                     'foto'=>['required', 'mimes:jpg,jpeg,png,JPG,JPEG,PNG', 'max:10000']
@@ -166,9 +162,9 @@ class LeitorController extends Controller
                 }
                 $path = $request->file('foto')->store('img_leitores');
                 $data['pessoa']['foto'] = $path;
-            }
+            }*/
 
-            if (Pessoa::find($id)->update($data['pessoa'])) {
+            if (Pessoa::find($leitor->pessoa->id)->update($data['pessoa'])) {
                 if (Leitor::find($id)->update($data['leitor'])) {
                     return response()->json(['status' => "success", 'data' => "Actualização feita com sucesso"], 200);
                 }
