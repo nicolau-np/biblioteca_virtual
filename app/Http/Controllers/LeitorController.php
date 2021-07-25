@@ -192,7 +192,6 @@ class LeitorController extends Controller
                 return response()->json(['status' => "not_found", 'data' => "Não encontrou Leitor"], 404);
             }
 
-
             if (Leitor::find($id)->delete()) {
                 return response()->json(['status' => "success", 'data' => "Eliminado com sucesso"], 200);
             }
